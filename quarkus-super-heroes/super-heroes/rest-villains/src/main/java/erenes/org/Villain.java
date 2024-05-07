@@ -3,11 +3,12 @@ package erenes.org;
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import io.smallrye.common.constraint.NotNull;
 import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Size;
 
 import java.util.Random;
-
+@Entity
 public class Villain extends PanacheEntity {
 
     @NotNull
