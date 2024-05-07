@@ -1,7 +1,7 @@
 package erenes.fight;
 
-import erenes.org.client.Hero;
-import erenes.org.client.Villain;
+import erenes.org.fight.client.Hero;
+import erenes.org.fight.client.Villain;
 import erenes.org.fight.Fight;
 import erenes.org.fight.Fighters;
 import io.quarkus.test.junit.QuarkusTest;

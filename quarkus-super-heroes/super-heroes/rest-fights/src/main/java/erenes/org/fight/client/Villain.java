@@ -1,10 +1,10 @@
-package erenes.org.client;
+package erenes.org.fight.client;
 
 import jakarta.validation.constraints.NotNull;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
-@Schema(description = "The hero fighting against the villain")
-public class Hero {
+@Schema(description = "The villain fighting against the hero")
+public class Villain {
     @NotNull
     public String name;
     @NotNull
