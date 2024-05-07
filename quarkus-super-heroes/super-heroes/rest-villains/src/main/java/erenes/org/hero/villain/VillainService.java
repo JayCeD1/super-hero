@@ -1,4 +1,4 @@
-package erenes.org.villain;
+package erenes.org.hero.villain;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.transaction.Transactional;

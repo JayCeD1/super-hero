@@ -1,4 +1,4 @@
-package erenes.org;
+package erenes.org.villain;
 
 import io.quarkus.test.junit.QuarkusIntegrationTest;
 
