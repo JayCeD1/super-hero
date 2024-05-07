@@ -8,6 +8,8 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
+import org.eclipse.microprofile.faulttolerance.Fallback;
+
 import org.jboss.logging.Logger;
 
 import java.time.Instant;
@@ -48,12 +50,35 @@ public class FightService {
         return fighters;
     }
 
+
+    @Fallback(fallbackMethod = "fallbackRandomVillain")
     Villain findRandomVillain() {
         return villainProxy.findRandomVillain();
     }
 
+    @Fallback(fallbackMethod = "fallbackRandomHero")
     Hero findRandomHero() {
         return heroProxy.findRandomHero();
+    }
+
+    public Hero fallbackRandomHero() {
+        logger.warn("Falling back on Hero");
+        Hero hero = new Hero();
+        hero.name = "Fallback hero";
+        hero.picture = "https://dummyimage.com/240x320/1e8fff/ffffff&text=Fallback+Hero";
+        hero.powers = "Fallback hero powers";
+        hero.level = 1;
+        return hero;
+    }
+
+    public Villain fallbackRandomVillain() {
+        logger.warn("Falling back on Villain");
+        Villain villain = new Villain();
+        villain.name = "Fallback villain";
+        villain.picture = "https://dummyimage.com/240x320/b22222/ffffff&text=Fallback+Villain";
+        villain.powers = "Fallback villain powers";
+        villain.level = 42;
+        return villain;
     }
 
     @Transactional(REQUIRED)
