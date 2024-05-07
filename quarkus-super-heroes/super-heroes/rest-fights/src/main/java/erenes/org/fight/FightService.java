@@ -1,8 +1,13 @@
 package erenes.org.fight;
 
+import erenes.org.fight.client.Hero;
+import erenes.org.fight.client.HeroProxy;
+import erenes.org.fight.client.Villain;
+import erenes.org.fight.client.VillainProxy;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
+import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.jboss.logging.Logger;
 
 import java.time.Instant;
@@ -19,6 +24,11 @@ public class FightService {
     @Inject
     Logger logger;
 
+    @RestClient
+    HeroProxy heroProxy;
+    @RestClient
+    VillainProxy villainProxy;
+
     private final Random random = new Random();
 
     public List<Fight> findAllFights() {
@@ -30,8 +40,20 @@ public class FightService {
     }
 
     public Fighters findRandomFighters() {
-        // Will be implemented later
-        return null;
+        Hero hero = findRandomHero();
+        Villain villain = findRandomVillain();
+        Fighters fighters = new Fighters();
+        fighters.hero = hero;
+        fighters.villain = villain;
+        return fighters;
+    }
+
+    Villain findRandomVillain() {
+        return villainProxy.findRandomVillain();
+    }
+
+    Hero findRandomHero() {
+        return heroProxy.findRandomHero();
     }
 
     @Transactional(REQUIRED)
