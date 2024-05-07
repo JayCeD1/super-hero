@@ -10,6 +10,7 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.UriInfo;
+import org.eclipse.microprofile.faulttolerance.Timeout;
 import org.jboss.logging.Logger;
 
 import java.util.List;
@@ -26,9 +27,20 @@ public class FightResource {
     @Inject
     FightService service;
 
+    @ConfigProperty(name = "process.milliseconds", defaultValue = "0")
+    long tooManyMilliseconds;
+
+    private void veryLongProcess() {
+        try {
+            Thread.sleep(tooManyMilliseconds);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+    }
 
     @GET
     @Path("/randomfighters")
+    @Timeout(500)
     public Response getRandomFighters() {
         Fighters fighters = service.findRandomFighters();
         logger.debug("Get random fighters " + fighters);
