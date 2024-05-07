@@ -201,3 +201,8 @@ j
 :super-heroes/infrastructure/docker-compose-app-remote.yaml,6/3/63f902524bd1e43eb1af284922ddcfe38ffc9e25
 [
 +super-heroes/kubernetes/database-fight.yaml,6/7/670a40b47501b8b4ca6637b4d2bcb2ef61458e08
+P
+ super-heroes/rest-heroes/pom.xml,4/b/4b5bc317383414c505a8ca42d39a352a99db5640
+:
+
+.gitignore,a/5/a5cc2925ca8258af241be7e5b0381edf30266302
