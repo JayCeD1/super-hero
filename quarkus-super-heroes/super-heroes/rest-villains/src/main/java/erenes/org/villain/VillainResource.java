@@ -1,4 +1,4 @@
-package erenes.org;
+package erenes.org.villain;
 
 import jakarta.validation.Valid;
 import jakarta.ws.rs.*;

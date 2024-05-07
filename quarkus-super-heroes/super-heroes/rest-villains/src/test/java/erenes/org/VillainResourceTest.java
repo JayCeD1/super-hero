@@ -1,5 +1,6 @@
 package erenes.org;
 
+import erenes.org.villain.Villain;
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.common.mapper.TypeRef;
 import org.hamcrest.core.Is;
