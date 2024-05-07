@@ -1,16 +1,18 @@
 package erenes.fight;
 
+import erenes.fight.client.DefaultTestHero;
+import erenes.fight.client.DefaultTestVillain;
 import erenes.org.fight.client.Hero;
+import erenes.org.fight.client.HeroProxy;
 import erenes.org.fight.client.Villain;
 import erenes.org.fight.Fight;
 import erenes.org.fight.Fighters;
+import io.quarkus.test.InjectMock;
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.common.mapper.TypeRef;
+import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.hamcrest.core.Is;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.*;
 
 import java.util.List;
 import java.util.Random;
@@ -26,6 +28,7 @@ import static org.hamcrest.core.IsNull.notNullValue;
 import static org.hamcrest.core.StringContains.containsString;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.Mockito.when;
 
 @QuarkusTest
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -42,6 +45,15 @@ class FightResourceTest {
 
     private static final int NB_FIGHTS = 3;
     private static String fightId;
+
+    @InjectMock
+    @RestClient
+    HeroProxy heroProxy;
+
+    @BeforeEach
+    public void setup() {
+        when(heroProxy.findRandomHero()).thenReturn(DefaultTestHero.INSTANCE);
+    }
 
     @Test
     void shouldPingOpenAPI() {
@@ -146,6 +158,30 @@ class FightResourceTest {
             .statusCode(OK.getStatusCode())
             .extract().body().as(getFightTypeRef());
         assertEquals(NB_FIGHTS + 1, fights.size());
+    }
+
+    @Test
+    void shouldGetRandomFighters() {
+        Fighters fighters = given()
+            .when()
+            .get("/api/fights/randomfighters")
+            .then()
+            .statusCode(OK.getStatusCode())
+            .contentType(APPLICATION_JSON)
+            .extract()
+            .as(Fighters.class);
+
+        Hero hero = fighters.hero;
+        assertEquals(hero.name, DefaultTestHero.DEFAULT_HERO_NAME);
+        assertEquals(hero.picture, DefaultTestHero.DEFAULT_HERO_PICTURE);
+        assertEquals(hero.level, DefaultTestHero.DEFAULT_HERO_LEVEL);
+        assertEquals(hero.powers, DefaultTestHero.DEFAULT_HERO_POWERS);
+
+        Villain villain = fighters.villain;
+        assertEquals(villain.name, DefaultTestVillain.DEFAULT_VILLAIN_NAME);
+        assertEquals(villain.picture, DefaultTestVillain.DEFAULT_VILLAIN_PICTURE);
+        assertEquals(villain.level, DefaultTestVillain.DEFAULT_VILLAIN_LEVEL);
+        assertEquals(villain.powers, DefaultTestVillain.DEFAULT_VILLAIN_POWERS);
     }
 
     private TypeRef<List<Fight>> getFightTypeRef() {
