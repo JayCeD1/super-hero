@@ -1,32 +1,38 @@
 package erenes.org.fight;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.validation.constraints.NotNull;
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
-/**
- * Example JPA entity.
- *
- * To use it, get access to a JPA EntityManager via injection.
- *
- * {@code
- *     @Inject
- *     EntityManager em;
- *
- *     public void doSomething() {
- *         MyEntity entity1 = new MyEntity();
- *         entity1.field = "field-1";
- *         em.persist(entity1);
- *
- *         List<MyEntity> entities = em.createQuery("from MyEntity", MyEntity.class).getResultList();
- *     }
- * }
- */
+import java.time.Instant;
+
 @Entity
-public class Fight {
-    @Id
-    @GeneratedValue
-    public Long id;
+@Schema(description = "Each fight has a winner and a loser")
+public class Fight extends PanacheEntity {
 
-    public String field;
+    @NotNull
+    public Instant fightDate;
+    @NotNull
+    public String winnerName;
+    @NotNull
+    public int winnerLevel;
+    @NotNull
+    @Column(columnDefinition = "TEXT")
+    public String winnerPowers;
+    @NotNull
+    public String winnerPicture;
+    @NotNull
+    public String loserName;
+    @NotNull
+    public int loserLevel;
+    @NotNull
+    @Column(columnDefinition = "TEXT")
+    public String loserPowers;
+    @NotNull
+    public String loserPicture;
+    @NotNull
+    public String winnerTeam;
+    @NotNull
+    public String loserTeam;
 }
