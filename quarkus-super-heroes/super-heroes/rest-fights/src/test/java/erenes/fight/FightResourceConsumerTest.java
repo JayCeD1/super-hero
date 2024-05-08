@@ -85,4 +85,37 @@ class FightResourceConsumerTest {
         assertEquals(villain.picture, DefaultTestVillain.DEFAULT_VILLAIN_PICTURE);
         assertEquals(villain.level, DefaultTestVillain.DEFAULT_VILLAIN_LEVEL);
     }
+
+    @Pact(consumer = "rest-fights")
+    public V4Pact randomHeroNotFoundPact(PactDslWithProvider builder) {
+        return builder
+            .given("No random hero found")
+            .uponReceiving("A request for a random hero")
+            .path(HERO_RANDOM_URI)
+            .method(HttpMethod.GET)
+            .headers(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON)
+            .willRespondWith()
+            .status(Response.Status.NOT_FOUND.getStatusCode())
+            .toPact(V4Pact.class);
+    }
+
+    @Test
+    @PactTestFor(pactMethod = "randomHeroNotFoundPact")
+    void shouldGetRandomFighters() {
+        Fighters fighters = given()
+            .when()
+            .get("/api/fights/randomfighters")
+            .then()
+            .statusCode(OK.getStatusCode())
+            .contentType(APPLICATION_JSON)
+            .extract()
+            .as(Fighters.class);
+
+        Hero hero = fighters.hero;
+
+        assertEquals(hero.name, "Fallback hero");
+        assertEquals(hero.picture,
+            "https://dummyimage.com/240x320/1e8fff/ffffff&text=Fallback+Hero");
+        assertEquals(hero.level, 1);
+    }
 }
