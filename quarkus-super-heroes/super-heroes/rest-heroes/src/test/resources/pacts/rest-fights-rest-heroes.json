@@ -69,6 +69,36 @@
       },
       "transport": "https",
       "type": "Synchronous/HTTP"
+    },
+    {
+      "comments": {
+        "testname": "erenes.fight.FightResourceConsumerTest.shouldGetRandomFighters()",
+        "text": [
+
+        ]
+      },
+      "description": "A request for a random hero",
+      "key": "ad777651",
+      "pending": false,
+      "providerStates": [
+        {
+          "name": "No random hero found"
+        }
+      ],
+      "request": {
+        "headers": {
+          "Accept": [
+            "application/json"
+          ]
+        },
+        "method": "GET",
+        "path": "/api/heroes/random"
+      },
+      "response": {
+        "status": 404
+      },
+      "transport": "https",
+      "type": "Synchronous/HTTP"
     }
   ],
   "metadata": {
