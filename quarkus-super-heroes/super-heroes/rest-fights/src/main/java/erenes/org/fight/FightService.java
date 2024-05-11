@@ -1,9 +1,6 @@
 package erenes.org.fight;
 
-import erenes.org.fight.client.Hero;
-import erenes.org.fight.client.HeroProxy;
-import erenes.org.fight.client.Villain;
-import erenes.org.fight.client.VillainProxy;
+import erenes.org.fight.client.*;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -28,8 +25,12 @@ public class FightService {
 
     @RestClient
     HeroProxy heroProxy;
+
     @RestClient
     VillainProxy villainProxy;
+
+    @RestClient
+    NarrationProxy narrationProxy;
 
     private final Random random = new Random();
 
@@ -79,6 +80,10 @@ public class FightService {
         villain.powers = "Fallback villain powers";
         villain.level = 42;
         return villain;
+    }
+
+    public String narrateFight(Fight fight) {
+        return narrationProxy.narrate(fight);
     }
 
     @Transactional(REQUIRED)

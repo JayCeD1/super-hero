@@ -3,10 +3,7 @@ package erenes.org.fight;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.POST;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.UriInfo;
@@ -17,6 +14,7 @@ import org.jboss.logging.Logger;
 import java.util.List;
 
 import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
+import static jakarta.ws.rs.core.MediaType.TEXT_PLAIN;
 
 @Path("/api/fights")
 @Produces(APPLICATION_JSON)
@@ -75,9 +73,20 @@ public class FightResource {
     }
 
     @GET
-    @Produces(MediaType.TEXT_PLAIN)
+    @Produces(TEXT_PLAIN)
     @Path("/hello")
     public String hello() {
         return "Hello Fight Resource";
+    }
+
+    @POST
+    @Path("/narrate")
+    @Consumes(APPLICATION_JSON)
+    @Produces(TEXT_PLAIN)
+    public Response narrateFight(@Valid Fight fight) {
+        logger.debug("Narrate the fight " + fight);
+        String narration = service.narrateFight(fight);
+        return Response.status(Response.Status.CREATED).entity(narration).build();
+
     }
 }
