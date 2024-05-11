@@ -24,6 +24,6 @@ public class NarrationResource {
     @GET
     @Path("/hello")
     public String hello() {
-        return "Hello Narration Resource";
+        return "Hello from Quarkus REST";
     }
 }
