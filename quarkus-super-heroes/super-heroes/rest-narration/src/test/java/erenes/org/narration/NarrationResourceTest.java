@@ -1,4 +1,4 @@
-package erenes.org;
+package erenes.org.narration;
 
 import io.quarkus.test.junit.QuarkusTest;
 import org.junit.jupiter.api.Test;
