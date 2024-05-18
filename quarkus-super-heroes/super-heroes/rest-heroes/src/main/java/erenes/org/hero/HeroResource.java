@@ -1,4 +1,4 @@
-package erenes.org.hero.hero;
+package erenes.org.hero;
 
 import io.quarkus.hibernate.reactive.panache.common.WithTransaction;
 import io.smallrye.mutiny.Uni;
