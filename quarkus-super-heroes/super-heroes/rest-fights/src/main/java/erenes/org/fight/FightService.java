@@ -5,6 +5,8 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import org.eclipse.microprofile.faulttolerance.Fallback;
+import org.eclipse.microprofile.reactive.messaging.Channel;
+import org.eclipse.microprofile.reactive.messaging.Emitter;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 import org.jboss.logging.Logger;
@@ -31,6 +33,9 @@ public class FightService {
 
     @RestClient
     NarrationProxy narrationProxy;
+
+    @Channel("fights")
+    Emitter<Fight> emitter;
 
     private final Random random = new Random();
 
@@ -105,6 +110,10 @@ public class FightService {
 
         fight.fightDate = Instant.now();
         fight.persist();
+        //Sending a message to Kafka is an asynchronous operation, and we need to be
+        // sure that the fight is not accessed outside the transaction.
+        // Thus, we wait until Kafka confirms the reception before returning.
+        emitter.send(fight).toCompletableFuture().join();
 
         return fight;
     }
