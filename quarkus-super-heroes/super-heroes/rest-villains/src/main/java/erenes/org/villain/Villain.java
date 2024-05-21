@@ -1,4 +1,4 @@
-package erenes.org.hero.villain;
+package erenes.org.villain;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import io.smallrye.common.constraint.NotNull;

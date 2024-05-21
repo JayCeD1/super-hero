@@ -1,4 +1,4 @@
-package erenes.org.hero.villain;
+package erenes.org.villain;
 
 import jakarta.ws.rs.ApplicationPath;
 import jakarta.ws.rs.core.Application;

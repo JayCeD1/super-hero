@@ -1,4 +1,4 @@
-package erenes.org.hero.villain;
+package erenes.org.villain;
 
 import io.quarkus.runtime.ShutdownEvent;
 import io.quarkus.runtime.StartupEvent;
