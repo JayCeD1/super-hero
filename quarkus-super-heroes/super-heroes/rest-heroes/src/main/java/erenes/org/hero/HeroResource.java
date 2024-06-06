@@ -1,5 +1,6 @@
 package erenes.org.hero;
 
+import io.micrometer.core.annotation.Timed;
 import io.quarkus.hibernate.reactive.panache.common.WithTransaction;
 import io.smallrye.mutiny.Uni;
 import jakarta.validation.Valid;
@@ -35,6 +36,7 @@ public class HeroResource {
 
     @Operation(summary = "Returns a random hero")
     @GET
+    @Timed(value = "timeGetRandomHero")
     @Path("/random")
     @APIResponse(responseCode = "200", content = @Content(mediaType = APPLICATION_JSON, schema = @Schema(implementation = Hero.class, required = true)))
     public Uni<RestResponse<Hero>> getRandomHero() {
